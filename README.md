@@ -11,18 +11,16 @@ The repository has two distribution formats:
 
 ## Status
 
-This is the local `0.1.0` development version.
+This repository contains the published `0.1.0` source.
 
-- Repository visibility: public release selected, but not published yet
-- Intended GitHub repository:
+- GitHub repository:
   [`Stianlars1/larsen-skills`](https://github.com/Stianlars1/larsen-skills)
-- GitHub remote: not created
+- Visibility: public
+- Default branch: `main`
+- GitHub Release: not created yet
 - License: [MIT](LICENSE)
 - Core guidance: framework-agnostic
 - Primary v1 adapter: React/Next.js and Motion when already used by the project
-
-Commands that use the GitHub URL will work after the public repository has been
-created and pushed.
 
 ## Skills
 
@@ -354,8 +352,13 @@ that path.
 
 ## GitHub authentication for maintainers
 
-The current GitHub CLI credential for `Stianlars1` is invalid. Reauthenticate
-with GitHub's browser flow:
+Verify the active GitHub CLI account before repository maintenance:
+
+```bash
+gh auth status
+```
+
+If the credential is invalid, reauthenticate with GitHub's browser flow:
 
 ```bash
 gh auth login --hostname github.com --git-protocol https --web --clipboard
@@ -374,16 +377,11 @@ gh auth logout --hostname github.com --user Stianlars1
 gh auth login --hostname github.com --git-protocol https --web --clipboard
 ```
 
-After authentication, the maintainer can create the public remote from the
-repository root:
+Clone the published repository with:
 
 ```bash
-git add .
-git commit -m "Initial release of Larsen Skills"
-gh repo create Stianlars1/larsen-skills --public --source=. --remote=origin --push
+git clone https://github.com/Stianlars1/larsen-skills.git
 ```
-
-Those publication commands have not been run.
 
 ## Usage principles
 
@@ -404,15 +402,11 @@ Original repository content is licensed under the [MIT License](LICENSE).
 External names, trademarks, links, and referenced assets remain subject to
 their respective owners' terms.
 
-## Before the public release
+## Release follow-up
 
-The repository still needs:
+The repository source is public. The next release tasks are:
 
-1. a valid GitHub CLI login for `Stianlars1`;
-2. an initial commit and public GitHub remote;
-3. local end-to-end installation tests in Codex and Claude Code;
-4. installation tests of representative standalone packages;
-5. release attachment of the standalone ZIP files;
-6. optional plugin artwork and screenshots.
-
-None of those publication steps has been performed automatically.
+1. local end-to-end installation tests in Codex and Claude Code;
+2. installation tests of representative standalone packages;
+3. a tagged GitHub Release with the standalone ZIP files;
+4. optional plugin artwork and screenshots.
