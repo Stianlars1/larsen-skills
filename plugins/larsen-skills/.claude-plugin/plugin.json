@@ -1,0 +1,11 @@
+{
+  "name": "larsen-skills",
+  "description": "A curated collection of interface, motion, visual analysis, and design-engineering skills.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Stian Larsen"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Stianlars1/larsen-skills",
+  "repository": "https://github.com/Stianlars1/larsen-skills"
+}
