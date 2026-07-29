@@ -10,6 +10,7 @@ version="$(awk -F'"' '/"version"/ { print $4; exit }' "${manifest_path}")"
 output_root="${1:-${repository_root}/dist/larsen-skills-${version}}"
 skills_output="${output_root}/skills"
 archives_output="${output_root}/zips"
+reference_sync_script="${script_directory}/sync-skill-references.sh"
 
 if [[ -z "${version}" ]]; then
   echo "Could not read the plugin version from ${manifest_path}." >&2
@@ -29,6 +30,8 @@ for required_command in zip shasum; do
   fi
 done
 
+"${reference_sync_script}" --check
+
 mkdir -p "${skills_output}" "${archives_output}"
 
 for source_skill in "${plugin_root}"/skills/*; do
@@ -40,29 +43,11 @@ for source_skill in "${plugin_root}"/skills/*; do
 
   cp -R "${source_skill}" "${packaged_skill}"
 
-  while IFS= read -r shared_reference; do
-    [[ -n "${shared_reference}" ]] || continue
+  if grep -q '\.\./\.\./references/' "${packaged_skill_file}"; then
+    echo "Non-portable reference found in ${packaged_skill_file}." >&2
+    exit 1
+  fi
 
-    reference_path="${shared_reference#../../references/}"
-    source_reference="${plugin_root}/references/${reference_path}"
-    packaged_reference="${packaged_skill}/references/${reference_path}"
-
-    if [[ ! -f "${source_reference}" ]]; then
-      echo "Missing shared reference: ${source_reference}" >&2
-      exit 1
-    fi
-
-    mkdir -p "$(dirname -- "${packaged_reference}")"
-    cp "${source_reference}" "${packaged_reference}"
-  done < <(
-    (grep -Eo '\.\./\.\./references/[A-Za-z0-9._/-]+\.md' \
-      "${packaged_skill_file}" || true) | sort -u
-  )
-
-  rewritten_skill_file="${packaged_skill_file}.tmp"
-  sed 's#../../references/#references/#g' \
-    "${packaged_skill_file}" > "${rewritten_skill_file}"
-  mv "${rewritten_skill_file}" "${packaged_skill_file}"
   cp "${repository_root}/LICENSE" "${packaged_skill}/LICENSE"
 
   (

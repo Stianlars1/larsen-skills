@@ -16,10 +16,10 @@ checklist, and do not turn preferences into defects.
 
 Read before reviewing:
 
-- `../../references/interface-principles.md`
-- `../../references/visual-systems.md`
-- `../../references/motion-principles.md`
-- `../../references/evidence-and-verification.md`
+- `references/interface-principles.md`
+- `references/visual-systems.md`
+- `references/motion-principles.md`
+- `references/evidence-and-verification.md`
 
 ## Modes
 

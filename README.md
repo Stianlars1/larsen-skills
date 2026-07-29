@@ -200,6 +200,12 @@ git clone https://github.com/Stianlars1/larsen-skills.git
 cd larsen-skills
 ```
 
+After changing a shared reference, refresh the self-contained skill copies:
+
+```bash
+./scripts/sync-skill-references.sh
+```
+
 Build self-contained skill folders and ZIP archives:
 
 ```bash
