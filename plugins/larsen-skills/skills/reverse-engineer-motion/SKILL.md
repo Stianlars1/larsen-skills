@@ -19,10 +19,10 @@ expression.
 
 Read before acting:
 
-- `../../references/evidence-and-verification.md`
-- `../../references/motion-principles.md`
-- `../../references/interface-principles.md`
-- `../../references/visual-systems.md`
+- `references/evidence-and-verification.md`
+- `references/motion-principles.md`
+- `references/interface-principles.md`
+- `references/visual-systems.md`
 
 ## Rights and input gate
 

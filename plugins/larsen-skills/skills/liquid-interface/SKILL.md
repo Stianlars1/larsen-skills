@@ -17,10 +17,10 @@ contract.
 
 Read before acting:
 
-- `../../references/interface-principles.md`
-- `../../references/visual-systems.md`
-- `../../references/motion-principles.md`
-- `../../references/evidence-and-verification.md`
+- `references/interface-principles.md`
+- `references/visual-systems.md`
+- `references/motion-principles.md`
+- `references/evidence-and-verification.md`
 
 ## Establish the brief
 

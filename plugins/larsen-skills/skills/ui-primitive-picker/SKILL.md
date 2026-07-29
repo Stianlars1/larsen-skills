@@ -16,8 +16,8 @@ contract. Return one recommendation, not an unranked catalog.
 
 Read before acting:
 
-- `../../references/interface-principles.md`
-- `../../references/evidence-and-verification.md`
+- `references/interface-principles.md`
+- `references/evidence-and-verification.md`
 
 ## Scope
 

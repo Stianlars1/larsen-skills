@@ -17,9 +17,9 @@ removal.
 
 Read before acting:
 
-- `../../references/motion-principles.md`
-- `../../references/interface-principles.md`
-- `../../references/evidence-and-verification.md`
+- `references/motion-principles.md`
+- `references/interface-principles.md`
+- `references/evidence-and-verification.md`
 
 ## Select one mode
 
