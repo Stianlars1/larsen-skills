@@ -1,7 +1,6 @@
 # Larsen Skills
 
 [![GitHub release](https://img.shields.io/github/v/release/Stianlars1/larsen-skills?display_name=tag)](https://github.com/Stianlars1/larsen-skills/releases/latest)
-[![skills.sh](https://skills.sh/b/stianlars1/larsen-skills)](https://skills.sh/stianlars1/larsen-skills)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A focused collection of Agent Skills for building thoughtful web interfaces:
