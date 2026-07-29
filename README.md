@@ -1,11 +1,26 @@
-# Larsen Skills
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="plugins/larsen-skills/assets/larsen-mark-on-dark.png">
+    <img src="plugins/larsen-skills/assets/larsen-mark-on-light.png" alt="" width="88" height="88">
+  </picture>
+</p>
 
-[![GitHub release](https://img.shields.io/github/v/release/Stianlars1/larsen-skills?display_name=tag)](https://github.com/Stianlars1/larsen-skills/releases/latest)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+<h1 align="center">Larsen Skills</h1>
 
-A focused collection of Agent Skills for building thoughtful web interfaces:
-UI/UX, motion, accessibility, visual analysis, prototyping, liquid effects, and
-animated brand systems.
+<p align="center">
+  A focused collection of Agent Skills for building thoughtful web interfaces:
+  UI/UX, motion, accessibility, visual analysis, prototyping, liquid effects,
+  and animated brand systems.
+</p>
+
+<p align="center">
+  <sub>An open-source project by Larsen Utvikling.</sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Stianlars1/larsen-skills/releases/latest"><img src="https://img.shields.io/github/v/release/Stianlars1/larsen-skills?display_name=tag" alt="GitHub release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+</p>
 
 Use the complete collection as a Codex or Claude Code plugin, or install only
 the skills you need in any client that supports the
@@ -228,4 +243,17 @@ repository, article collection, paid course, prompt, or product asset library.
 
 See [SOURCES.md](SOURCES.md) for provenance and reuse boundaries.
 
-Larsen Skills is available under the [MIT License](LICENSE).
+Larsen Skills is available under the [MIT License](LICENSE). The Larsen
+Utvikling brand marks remain reserved and are not relicensed under MIT; see
+[NOTICE.md](NOTICE.md).
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="plugins/larsen-skills/assets/larsen-lockup-on-dark.png">
+    <img src="plugins/larsen-skills/assets/larsen-lockup-on-light.png" alt="Larsen Utvikling" width="220">
+  </picture>
+</p>
+
+<p align="center">
+  <sub>Created and maintained by Larsen Utvikling.</sub>
+</p>

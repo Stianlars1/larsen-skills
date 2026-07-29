@@ -1,6 +1,6 @@
 {
   "name": "larsen-skills",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A curated collection of interface, motion, visual analysis, and design-engineering skills.",
   "author": {
     "name": "Stian Larsen"
@@ -20,7 +20,7 @@
     "displayName": "Larsen Skills",
     "shortDescription": "Craft, animate, analyze, and review high-quality web interfaces",
     "longDescription": "A focused design-engineering toolkit for interface craft, motion design, evidence-based reviews, video reverse engineering, liquid interactions, logo cycles, prototyping, and UI primitive selection.",
-    "developerName": "Stian Larsen",
+    "developerName": "Larsen Utvikling",
     "websiteURL": "https://github.com/Stianlars1/larsen-skills",
     "category": "Developer Tools",
     "capabilities": [
@@ -32,6 +32,9 @@
       "Help me craft, animate, or review an interface."
     ],
     "brandColor": "#6D5DFC",
+    "composerIcon": "./assets/larsen-mark-on-light.png",
+    "logo": "./assets/larsen-mark-on-light.png",
+    "logoDark": "./assets/larsen-mark-on-dark.png",
     "screenshots": []
   }
 }

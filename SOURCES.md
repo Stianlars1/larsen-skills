@@ -11,6 +11,7 @@ articles, prompts, and assets must not be copied wholesale into this repository.
 | [Arlan's Liquid UI](https://www.arlan.me/vault/liquid-ui) | Public page marked MIT when reviewed | SDF-based merging, marching-squares contours, interaction modes, and the distinction between a visual layer and semantic DOM | This repository specifies an original implementation; it does not copy the page's source or prompt |
 | Station logo-cycle implementation and recording | User-owned local source, reviewed 2026-07-29 | Multi-asset transitions, Web Animations lifecycle, spring-derived easing, dwell, hover defer, visibility handling, and reduced motion | No Station logo assets or production code are redistributed |
 | Tinify logo-cycle implementation and recording | User-owned local source, reviewed 2026-07-29 | Geometry-led transformation, masks, optical centering, CSS timeline design, and lifecycle tests | No Tinify logo assets or production code are redistributed |
+| Larsen Utvikling brand identity | First-party assets supplied and approved by the owner, reviewed 2026-07-29 | Publisher attribution for Larsen Skills, plugin presentation, and repository sharing | Included only for this project's identity; the marks are not relicensed under MIT |
 | Local `scroll-video-skill-bundle` | Provenance and license unresolved | The general idea of extracting frames from a video and producing a reproducible motion specification | Its code and text are excluded until provenance and reuse rights are established |
 
 ## Source discipline

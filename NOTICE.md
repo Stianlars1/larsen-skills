@@ -13,3 +13,10 @@ have not been established.
 The original contents of this repository are available under the MIT License.
 Third-party names, trademarks, linked material, and referenced product assets
 remain the property of their respective owners and are not relicensed here.
+
+The Larsen Utvikling brand marks under
+`plugins/larsen-skills/assets/` and the derived repository social preview are
+first-party identity assets included with the owner's explicit authorization.
+They are not covered by the MIT License, and their inclusion does not grant
+rights to use the Larsen Utvikling name or marks outside identifying this
+project and its publisher.
