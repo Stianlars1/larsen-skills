@@ -137,6 +137,30 @@ Skill availability can depend on your plan and workspace settings.
 | [`prototype-lab`](plugins/larsen-skills/skills/prototype-lab/SKILL.md) | Compare genuinely different interface or motion concepts before choosing a production direction. |
 | [`ui-primitive-picker`](plugins/larsen-skills/skills/ui-primitive-picker/SKILL.md) | Choose the smallest dependable native element, project primitive, or UI library component for a specific need. |
 | [`animated-logo-cycle`](plugins/larsen-skills/skills/animated-logo-cycle/SKILL.md) | Turn a logo, SVG mark, app icon, or family of brand variants into a detailed geometry-led loader and animated identity cycle. |
+| [`motion-vocabulary`](plugins/larsen-skills/skills/motion-vocabulary/SKILL.md) | Put the exact name to a motion or material effect you can describe but cannot name, so you can brief it precisely. |
+
+## Shared references
+
+The skills share one rule set. Each reference owns its domain, so a rule is
+defined once and every skill that needs it cites the same values.
+
+| Reference | Owns |
+| --- | --- |
+| [`interface-principles`](plugins/larsen-skills/references/interface-principles.md) | Product job, hierarchy, restraint, working order, and which reference owns what |
+| [`accessibility-contract`](plugins/larsen-skills/references/accessibility-contract.md) | Semantics, keyboard, focus, names, forms, hit areas, zoom |
+| [`layout-structure`](plugins/larsen-skills/references/layout-structure.md) | Grouping, alignment, spacing, breakpoints, logical properties |
+| [`typography`](plugins/larsen-skills/references/typography.md) | Type scale, leading, measure, wrapping, numbers, fonts |
+| [`color-and-contrast`](plugins/larsen-skills/references/color-and-contrast.md) | OKLCH, palettes, APCA and WCAG thresholds, gamut, appearances |
+| [`surfaces-and-depth`](plugins/larsen-skills/references/surfaces-and-depth.md) | Radius, optical alignment, elevation, materials, gradients, icons |
+| [`interface-copy`](plugins/larsen-skills/references/interface-copy.md) | Labels, errors, empty states, voice and tone |
+| [`motion-principles`](plugins/larsen-skills/references/motion-principles.md) | Whether to animate, easing, duration, choreography, interruptibility |
+| [`gesture-physics`](plugins/larsen-skills/references/gesture-physics.md) | Direct manipulation, velocity, momentum, boundaries, recognition |
+| [`review-protocol`](plugins/larsen-skills/references/review-protocol.md) | Severity, evidence, consolidation, output format, verdict |
+| [`evidence-and-verification`](plugins/larsen-skills/references/evidence-and-verification.md) | Evidence boundaries, verification environments, feel checks |
+
+Standalone skill packages are self-contained: `scripts/sync-skill-references.sh`
+copies each shared reference into every skill that cites it, so a single
+extracted skill still works on its own.
 
 ## Use
 

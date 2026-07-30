@@ -1,11 +1,15 @@
 ---
 name: interface-review
 description: >-
-  Perform an evidence-based, read-only review of a web interface across product
-  clarity, layout, visual polish, interaction, content, accessibility, motion,
-  responsiveness, and implementation risk. Use for UI or UX audits, design
+  Evidence-based, read-only review of a web interface across product clarity,
+  layout, typography, color and contrast, copy, accessibility, surfaces, motion,
+  responsiveness, and implementation risk. Coordinates every domain rule in this
+  collection into one prioritized verdict. Use for UI or UX audits, design
   critiques, polish reviews, and pre-release interface checks. Do not edit code
-  unless the user separately asks for implementation.
+  unless the user separately asks for implementation. Triggers on interface
+  review, UI audit, UX review, design critique, accessibility audit, polish
+  review, "review this screen", "what's wrong with this UI", holistic design
+  review.
 license: MIT
 ---
 
@@ -14,35 +18,84 @@ license: MIT
 Review what the interface actually does. Do not invent findings to fill a
 checklist, and do not turn preferences into defects.
 
-Read before reviewing:
+A strong review is not eleven independent audits stapled together. Let each
+domain reference own its rules, then consolidate the evidence into one ranked
+verdict.
 
-- `references/interface-principles.md`
-- `references/visual-systems.md`
-- `references/motion-principles.md`
-- `references/evidence-and-verification.md`
+## Quick reference
 
-## Modes
+| Domain | Read |
+| --- | --- |
+| Severity, evidence, consolidation, output format, verdict | `references/review-protocol.md` |
+| Product job, hierarchy, restraint, rule ownership | `references/interface-principles.md` |
+| Semantics, keyboard, focus, names, forms, hit areas, zoom | `references/accessibility-contract.md` |
+| Grouping, alignment, spacing, responsive structure, RTL | `references/layout-structure.md` |
+| Labels, errors, empty states, voice and tone | `references/interface-copy.md` |
+| Type scale, leading, measure, wrapping, numbers | `references/typography.md` |
+| OKLCH, palettes, APCA and WCAG thresholds, gamut | `references/color-and-contrast.md` |
+| Radius, optical alignment, elevation, materials, gradients, icons | `references/surfaces-and-depth.md` |
+| Frequency gate, easing, duration, interruptibility, performance | `references/motion-principles.md` |
+| Drag, swipe, velocity, momentum, boundaries | `references/gesture-physics.md` |
+| Evidence boundaries and feel-checking | `references/evidence-and-verification.md` |
 
-- `quick`: primary journey, top risks, and highest-leverage corrections.
-- `full`: representative states, breakpoints, input methods, motion preferences,
-  and source/runtime evidence.
-
-Default to `full` unless the user explicitly asks for a quick review.
+**Cite exact values from the owning reference.** Never approximate a curve, a
+duration, a contrast threshold, or a target size.
 
 ## Scope contract
 
-A review is read-only. Inspecting source, tests, assets, screenshots, and a local
-or authorized live surface is allowed. Do not change code, install packages,
-publish findings externally, or deploy a fix without a separate request.
+A review is **read-only**. Inspecting source, tests, assets, screenshots, and an
+authorized local or live surface is allowed. Do not change code, install
+packages, publish findings externally, or deploy a fix without a separate
+request.
 
-Establish:
+| Mode | Coverage | Finding cap |
+| --- | --- | --- |
+| `quick` | Primary journey and highest-traffic states; `HIGH` and `MEDIUM` only | 5 |
+| `full` | Entire scope, including empty, loading, error, and narrow-width states | 15 |
 
-- screen, feature, or journey in scope;
-- intended user and product job;
-- environment to inspect;
+Default to `full` unless the user asks for a quick review. If the scope is too
+large to inspect credibly, narrow it to the highest-traffic complete flow and
+**state the boundary**. Never imply uninspected surfaces were reviewed.
+
+Establish before judging:
+
+- the screen, feature, or journey in scope;
+- the intended user and product job;
+- **how often the user encounters this surface**;
+- the environment to inspect;
 - authenticated or destructive flows that must not be exercised;
 - target devices, browsers, themes, and locales;
 - whether the review is visual, functional, or both.
+
+## Recon before judgment
+
+Identify the framework, styling system, component library, design tokens,
+supported viewports, and available preview or test commands. Follow the project's
+established conventions.
+
+**A rule violated in service of a documented, deliberate project decision is not
+a finding.** Note it and move on.
+
+## Review order
+
+Walk the domains in this order so foundational failures are not hidden by polish.
+Assign each finding to the domain that owns the underlying rule and report it
+once; name secondary effects in the **Why** cell.
+
+1. **Accessibility** — semantics, keyboard, focus, names, forms, hit areas, zoom
+2. **Layout** — grouping, alignment, reading order, responsive structure
+3. **Copy** — labels, errors, empty states, terminology
+4. **Typography** — scale, hierarchy, leading, measure, wrapping, numbers
+5. **Color** — role tokens, measured contrast, gamut, both appearances
+6. **Surfaces** — radius, optical alignment, elevation, materials, icons
+7. **Motion** — frequency, purpose, easing, duration, interruptibility
+8. **Gesture** — direct manipulation, velocity, boundaries, keyboard parity
+9. **Product and content** — is the job understandable, is the primary action
+   correctly prioritized, are irreversible choices explicit
+10. **Implementation risk** — state handling, error recovery, performance cost
+
+In `quick` mode, inspect every domain but spend depth only where the primary flow
+has evidence.
 
 ## Evidence collection
 
@@ -50,88 +103,111 @@ Inspect the smallest evidence set that can prove the behavior:
 
 1. repository instructions and relevant source;
 2. current component and token systems;
-3. running surface at representative sizes;
+3. the running surface at representative sizes;
 4. keyboard and focus behavior;
 5. reduced-motion behavior;
 6. material loading, empty, error, success, and interrupted states;
-7. existing tests and known constraints.
+7. existing tests and documented constraints.
 
-Label findings as observed, inferred, or unknown. Record where and how each
-observed issue was reproduced.
+Label every claim **observed**, **inferred**, or **unknown**, and record where and
+how each observed issue was reproduced.
 
-## Review lenses
+**Do not report a code-level finding from appearance alone, or a visual finding
+from source alone, when runtime behavior decides the result.** Static source
+inspection is not a visual pass.
 
-### Product and content
+When motion is in scope, replay it at 10% speed and walk every state — hover,
+focus, active, loading, empty. What is wrong at 10% speed is subtly wrong at full
+speed.
 
-- Is the page's job understandable?
-- Is the primary action clear and correctly prioritized?
-- Does copy explain state, consequence, and recovery?
-- Are irreversible or costly choices explicit?
+## Highest-yield checks
 
-### Structure and layout
+Run these first; they account for most real findings.
 
-- Does reading order match visual order?
-- Are groups, alignment, spacing, density, and disclosure coherent?
-- Does the interface recompose at narrow widths?
-- Are real content lengths handled?
+**Accessibility**
 
-### Visual system
+- `outline: none` with no verified replacement
+- `<div onClick>` where a `<button>` or `<a href>` belongs
+- icon-only controls with no accessible name
+- placeholder used as the only label
+- submit disabled until the form is valid
+- error signalled by border color alone
+- targets below the 24×24px floor with no applicable exception
 
-- Are typography, colors, gradients, radii, borders, shadows, icons, and images
-  role-based and consistent?
-- Is contrast preserved in every state?
-- Does polish support hierarchy instead of competing with it?
+**Layout and typography**
 
-### Interaction and accessibility
+- gap between groups less than 2× the gap within a group
+- separator lines doing work that spacing should do
+- physical `margin-left` / `padding-right` in a localizable layout
+- paragraphs with no measure cap
+- `line-height` under `1.4` on text wrapping to three or more lines
+- changing numbers without `tabular-nums`
+- inputs below `16px` on mobile
 
-- Are controls semantic, named, focused, and keyboard-operable?
-- Are touch targets, validation, announcements, and focus restoration sound?
-- Can the flow recover from error without losing work?
-- Are pointer gestures optional?
+**Color and surfaces**
 
-### Motion
+- raw color values bypassing the token system
+- a semantic token used outside its role
+- contrast verified only in light mode
+- equal radii on closely nested surfaces
+- borders used purely to fake elevation
+- image outlines in a tinted near-black instead of pure black or white
 
-- Does each animation have a product purpose proportional to its frequency?
-- Is it interruptible, performant, and reduced-motion aware?
-- Do shared objects preserve continuity?
-- Does ambient motion pause and dwell appropriately?
+**Motion**
 
-## Findings format
+- animation on a keyboard-initiated or 100+/day action
+- `ease-in` on UI, `transition: all`, or `scale(0)`
+- `transform-origin: center` on a trigger-anchored popover (modals are exempt)
+- keyframes on rapidly triggered elements
+- movement with no `prefers-reduced-motion` handling
 
-Order findings by user impact, not by page position.
+## Consolidate and show restraint
 
-```markdown
-### [P1–P3] Concise finding
+One root cause is one finding; list every confirmed location in the same row. Do
+not pad to reach the cap — a short review, or none at all, is a valid result.
 
-- Evidence:
-- User impact:
-- Recommendation:
-- Verification:
-- Confidence: high | medium | low
-```
+**A considered-but-rejected section is required**: 1–3 candidates in `quick`, 2–5
+in `full`, each with the reason it was not reported. These must be real
+candidates encountered during the review.
 
-- `P1`: blocks a primary task, creates a serious accessibility failure, or risks
-  destructive user harm.
-- `P2`: materially degrades comprehension, completion, or a common interaction.
-- `P3`: meaningful polish or resilience issue with lower immediate impact.
+Avoid prescribing a redesign when a smaller correction addresses the cause.
 
-For visual refinements, add a compact `Current / Proposed / Why` comparison.
-Avoid prescribing a full redesign when a smaller correction addresses the cause.
+## Output
 
-## Report
+Use `references/review-protocol.md` §8:
 
-Lead with a verdict:
+1. **Scope and coverage** — mode, exact scope, stack and conventions, boundary,
+   and a per-domain coverage table where `Clear` means inspected with no finding
+   and `Not reviewed` explains why.
+2. **Findings** — one table ordered by severity, then reach and leverage:
 
-- `pass`: no material issue established in scope;
-- `partial`: usable, with specific issues or unverified areas;
-- `fail`: a primary journey or release-critical contract is broken.
+   | # | Severity | Domain | Location | Before | After | Why |
+   | --- | --- | --- | --- | --- | --- | --- |
 
-Then provide:
+3. **Considered but rejected.**
+4. **Strengths worth preserving.**
+5. **Verification** — each check, the exact command or steps, and the observed
+   result; anything unrun marked **Not verified**.
+6. **Verdict** — exactly one of `Block` (a `HIGH` remains), `Needs changes` (only
+   `MEDIUM`/`LOW` remain), or `Approve` (nothing actionable remains and claimed
+   coverage was verified).
 
-1. findings;
-2. strengths worth preserving;
-3. rejected ideas or non-issues when useful;
-4. evidence boundary and unverified environments;
-5. a prioritized, self-contained implementation plan.
+Then provide a prioritized, self-contained implementation plan. **A review does
+not authorize edits** — do not write the fixes until the user asks.
 
-Do not write the fixes until the user authorizes implementation.
+## Common mistakes
+
+| Mistake | Fix |
+| --- | --- |
+| Domain reports stapled together | One ranked, consolidated findings table |
+| The same issue reported by two domains | Assign it to the owner; report once |
+| Finding with no exact location | Cite `path/to/file:line` and the current code |
+| Visual claim inferred only from source | Inspect the rendered state, or mark it not verified |
+| Verification gap presented as a finding | Label it **Not verified** |
+| Unlimited low-impact polish | Respect the cap; omit `LOW` in `quick` |
+| Silent coverage gaps | Show which domains and states were inspected |
+| No rejected candidates | The section is required |
+| Preference reported as a defect | Name the violated rule, or drop it |
+| Deliberate project convention flagged | Note it; do not report it |
+| Review silently edits code | Stay read-only unless implementation was requested |
+| `Approve` with pending actionable findings | `Needs changes` or `Block` |

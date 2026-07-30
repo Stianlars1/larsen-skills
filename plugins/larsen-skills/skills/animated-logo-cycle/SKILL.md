@@ -20,11 +20,21 @@ negative space, material variants, and visual rhythm must determine the
 choreography. A fade, scale, blur, or rotation is a supporting technique, not a
 concept by itself.
 
-Read these supporting resources before proposing motion:
+## Quick reference
 
-- `references/choreography-guide.md`
-- `references/logo-cycle-case-studies.md`
-- `templates/motion-spec.md`
+| Need | Read |
+| --- | --- |
+| Motion families the logo's own geometry can support | `references/choreography-guide.md` |
+| Worked examples of geometry-led cycles | `references/logo-cycle-case-studies.md` |
+| The specification format for the chosen cycle | `templates/motion-spec.md` |
+| Easing, springs, ambient-sequence rules, performance, reduced motion | `references/motion-principles.md` |
+| Decorative-duplicate naming, reduced motion as a requirement | `references/accessibility-contract.md` |
+| Evidence boundaries, frame analysis, feel checks | `references/evidence-and-verification.md` |
+
+**An ambient brand loop is not UI feedback.** The sub-300ms budget does not apply
+to it — see `references/motion-principles.md` §9 for the rules that do. Everything
+else in that file, especially the performance and reduced-motion sections, applies
+in full.
 
 ## Non-negotiable workflow
 
@@ -208,22 +218,25 @@ continuous action.
 
 ### Timing and easing
 
-- Use immediate response for user-triggered controls, but do not apply
-  sub-300ms UI timing rules blindly to an ambient brand sequence.
-- Use ease-in-out or a restrained spring for an object already on screen
-  moving between poses.
-- An ease-in wind-up can be appropriate for autonomous anticipation before a
-  fast handoff; it is not appropriate for delaying user feedback.
-- Use ease-out for entrances, exits, and settling responses.
-- Use linear motion only for truly constant travel, such as a continuous orbit
-  or a deliberately uniform path segment.
-- Preserve forward velocity across a visual swap. Do not let the incoming layer
-  restart from zero if it represents the same moving object.
-- Give the cycle stillness. A detailed logo loop needs contrast between motion
-  and rest.
+| Beat | Easing | Note |
+| --- | --- | --- |
+| Entrance, exit, settle | `ease-out` — `cubic-bezier(0.23, 1, 0.32, 1)` | Arrival reads as decisive |
+| On-screen travel between poses | `ease-in-out` — `cubic-bezier(0.77, 0, 0.175, 1)` | Visible departure and arrival |
+| Autonomous wind-up before a fast handoff | `ease-in` | Legitimate here **only** because no user input is waiting |
+| Constant travel (continuous orbit, uniform path) | `linear` | Never for a beat with a destination |
+| Material settle, elastic character | Spring, `bounce: 0` default | `0.1–0.3` only if a preceding beat carried momentum |
+| User-triggered replay control | Immediate response, 100–160ms | This part *is* UI and obeys the UI budget |
 
-Specify numeric values only after observing the prototype. Easing and duration
-are design variables, not universal constants.
+- **Do not apply sub-300ms UI timing to an ambient brand sequence.** An ambient
+  loop is not feedback; it is governed by `references/motion-principles.md` §9.
+- **Preserve forward velocity across a visual swap.** If the incoming layer
+  represents the same moving object, it must not restart from zero.
+- **Give the cycle stillness.** A detailed loop needs contrast between motion and
+  rest. Dwell is a designed value, not leftover time.
+
+Specify the numeric values only after observing the prototype at target size —
+duration and easing are design variables here. The *shape* of the choice above is
+not: an entrance still uses `ease-out` whatever its duration turns out to be.
 
 ## 8. Choose the rendering strategy
 
@@ -268,16 +281,23 @@ never let each animated layer announce itself.
 
 ## 10. Performance and fidelity
 
-- Prefer `transform` and `opacity`.
-- Use `clip-path` and masks when they express the logo's own geometry.
-- Keep blur subtle and brief; verify Safari and low-power hardware.
-- Avoid layout-driven animation and `transition: all`.
-- Apply `will-change` only around active motion, then remove it.
-- Avoid JavaScript per-frame rendering for a predetermined logo timeline.
-- Keep the logo's optical center stable unless displacement is intentional.
-- Verify edge-on 3D frames do not expose a flash or mirrored intermediate.
-- Ensure filters, masks, and SVG IDs remain correct with multiple component
-  instances on one page.
+- **Prefer `transform` and `opacity`.** Never `transition: all`, never
+  layout-driven animation.
+- Use `clip-path` and masks when they express the logo's own geometry;
+  `clip-path` is compositor-friendly and causes no layout shift.
+- **Keep blur under 20px** and brief. Verify Safari and low-power hardware
+  specifically — filter cost there is materially higher.
+- Apply `will-change` only to `transform`, `opacity`, or `filter`, only around
+  active motion, and remove it after. Never `will-change: all`.
+- **Avoid JavaScript per-frame rendering for a predetermined timeline.** CSS and
+  WAAPI run off the main thread and stay smooth while the page is loading; a
+  `requestAnimationFrame` loop does not. This matters most for a logo, which
+  typically animates *during* page load.
+- Keep the logo's optical centre stable unless displacement is intentional.
+- Verify edge-on 3D frames do not expose a flash or a mirrored intermediate.
+- **Ensure filters, masks, and SVG IDs stay correct with multiple instances on
+  one page.** Duplicate IDs are the most common cause of a second logo rendering
+  wrong.
 
 ## 11. Selection gate: final choreography
 
@@ -304,6 +324,24 @@ Verify behavior, not just compilation:
 Unit tests should cover scheduling and lifecycle. Browser tests or recorded
 frames must cover visual choreography; timer tests alone cannot prove motion
 quality.
+
+## Common mistakes
+
+| Mistake | Fix |
+| --- | --- |
+| A concept that would work for any logo | Derive it from this logo's geometry and negative space |
+| Three parameter presets presented as three concepts | Three different choreographies, or say there are fewer |
+| Production integration before the selection gates | Both gates are required; the user owns the creative choice |
+| Sub-300ms UI budget applied to an ambient loop | Ambient sequences follow `motion-principles.md` §9 |
+| `ease-in` used to delay a user-triggered replay | `ease-in` is only for autonomous wind-up |
+| Incoming layer restarts from zero mid-swap | Preserve forward velocity across the handoff |
+| Loop seam pops or flashes | Final frame must equal the first, exactly |
+| Concept verified only at 128px | Render and inspect at every real target size |
+| rAF loop driving a predetermined timeline | CSS or WAAPI, so it survives page load |
+| Reduced motion removes a state signal silently | Keep the static logo; signal state non-spatially |
+| Every animated layer announces itself | One stable accessible name, or `aria-hidden` on decorative duplicates |
+| Duplicate SVG filter/mask IDs across instances | Namespace the IDs per instance |
+| Cycle keeps running in a hidden tab | Defer future cycles on `visibilitychange` |
 
 ## Required deliverables
 
