@@ -48,14 +48,38 @@ or a previous evidence run.
 A useful finding includes:
 
 1. the observed behavior;
-2. where it occurs;
+2. where it occurs, as `path/to/file:line`;
 3. why it matters to the user or system;
-4. the smallest credible correction;
+4. the smallest credible correction, with exact values;
 5. severity and confidence;
 6. how the correction should be verified.
 
 Do not invent issues to fill a category. Explicitly say when no material finding
 was established.
+
+Severity, consolidation, the findings table, the required rejected-candidates
+section, and the verdict are defined in `references/review-protocol.md`. Use that
+format rather than improvising one.
+
+## Feel-checking
+
+Some qualities cannot be established by reading code, running a test, or taking a
+single screenshot. Motion, gesture response, crossfades, and spring character are
+in that category. A mechanically correct implementation can still be wrong.
+
+When the quality in question is felt rather than measured:
+
+- **Replay at 10% speed** in the browser's animation inspector, or temporarily
+  multiply durations by 2–5×.
+- **Step frame by frame** to expose timing drift between coordinated properties.
+- **Drive gestures on real hardware.** A trackpad does not produce the velocities
+  a thumb does.
+- **Return with fresh eyes.** Imperfections invisible during development surface
+  the next day.
+
+If a feel check was not performed, say so and name it as the outstanding
+verification. Never present a source-only inspection as evidence about how
+something feels.
 
 ## Visual comparison
 

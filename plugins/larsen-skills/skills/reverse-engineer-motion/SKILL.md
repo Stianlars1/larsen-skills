@@ -6,7 +6,9 @@ description: >-
   plan, and optional prototype brief. Use when the user wants to understand or
   recreate the behavior, composition, transitions, perspective, or graphics in
   a recorded interface. Do not use for copying protected assets or for a simple
-  animation review of an existing codebase.
+  animation review of an existing codebase. Triggers on reverse engineer, recreate
+  this animation, analyze this video, frame by frame, "how did they build this",
+  motion spec from a recording, extract frames.
 license: MIT
 ---
 
@@ -17,12 +19,20 @@ The deliverable must explain what is observed, what is inferred, and how a new
 implementation can achieve the same class of behavior without copying protected
 expression.
 
-Read before acting:
+## Quick reference
 
-- `references/evidence-and-verification.md`
-- `references/motion-principles.md`
-- `references/interface-principles.md`
-- `references/visual-systems.md`
+| Need | Read |
+| --- | --- |
+| Evidence boundaries, verification environments, reproducibility, feel checks | `references/evidence-and-verification.md` |
+| Easing vocabulary, duration budgets, springs, interruptibility, performance | `references/motion-principles.md` |
+| Direct manipulation, velocity, momentum projection, rubber-banding | `references/gesture-physics.md` |
+| Typography, color, radius, elevation, materials, gradients in the visual model | `references/surfaces-and-depth.md` |
+| Product job, hierarchy, restraint, working order | `references/interface-principles.md` |
+
+**Naming the observed effect precisely makes the specification portable.** Use
+`motion-vocabulary` when the right term for a behavior is unclear — a spec that
+says "shared element transition" is executable; one that says "the thing where it
+grows into the page" is not.
 
 ## Rights and input gate
 
@@ -163,6 +173,26 @@ Replace protected or product-specific expression:
 When multiple explanations fit the evidence, propose alternatives and ask the
 user which one to prototype.
 
+### Judge the reference before reproducing it
+
+A reference being attractive is not proof it is correct. Before recommending
+parity, run the observed behavior through the frequency and purpose gates in
+`references/motion-principles.md`:
+
+- A 400ms transition captured in a polished product demo may still be wrong for a
+  surface your user hits fifty times a day.
+- Marketing and explanatory motion is allowed to be slower and showier than the
+  same effect would be inside a product.
+- A recording cannot show `prefers-reduced-motion`, keyboard operation, focus
+  behavior, or the non-pointer path. Those are **unknown**, not absent — say so,
+  and specify them yourself rather than shipping a gap.
+- A recording shows one viewport, one theme, and one device-pixel ratio. Do not
+  infer responsive behavior from a single capture.
+
+Where the reference violates a rule this collection treats as non-negotiable,
+say so explicitly and specify the corrected version alongside the observed one.
+The user can then choose parity or correctness knowingly.
+
 ## Deliverables
 
 Produce, as applicable:
@@ -176,3 +206,18 @@ Produce, as applicable:
 
 Do not begin production integration until the user approves the reconstructed
 direction. A prototype should use replaceable assets and remain isolated.
+
+## Common mistakes
+
+| Mistake | Fix |
+| --- | --- |
+| Claiming every frame was reviewed | State the actual sampling and measurement method |
+| Current code cited as proof of what an old recording shows | Compare the two independently; neither proves the other |
+| Inference stated with the confidence of an observation | Label every conclusion observed, inferred, or unknown |
+| A single attractive frame reconstructed as the system | Reconstruct the whole arc, including rest and dwell |
+| Reproducing the reference's rule violations uncritically | Run it through the frequency and purpose gates first |
+| Reduced motion or keyboard treated as absent | They are **unknown** from a recording — specify them yourself |
+| Responsive behavior inferred from one capture | One viewport proves one viewport |
+| Frames overwritten into a previous analysis directory | Unique output directory per run; never overwrite the source |
+| Brand assets or copy carried into the implementation | Preserve behavior, replace protected expression |
+| Media downloaded or frames published without authorization | Resolve provenance at the rights gate first |

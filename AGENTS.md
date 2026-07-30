@@ -32,8 +32,15 @@ Before considering a change complete:
 
 1. validate JSON and YAML frontmatter;
 2. verify every referenced local file exists;
-3. scan for hard-coded private paths, secrets, and copied product assets;
-4. check whitespace and naming consistency;
-5. review the workflow for explicit scope, user-selection gates, accessibility,
+3. run `scripts/sync-skill-references.sh`, then `--check`, and confirm it passes.
+   Every shipped reference must be cited by its `SKILL.md`; an uncited one is a
+   failure, not a leftover;
+4. confirm each rule lives in exactly one reference, and that other references
+   name only the handoff;
+5. confirm prescriptive values are stated exactly, or as a band with the context
+   that decides where inside it a decision lands — never as vague guidance;
+6. scan for hard-coded private paths, secrets, and copied product assets;
+7. check whitespace and naming consistency;
+8. review the workflow for explicit scope, user-selection gates, accessibility,
    performance, and verification;
-6. report what was validated and what remains unverified.
+9. report what was validated and what remains unverified.
