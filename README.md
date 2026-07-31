@@ -20,6 +20,7 @@
 <p align="center">
   <a href="https://github.com/Stianlars1/larsen-skills/releases/latest"><img src="https://img.shields.io/github/v/release/Stianlars1/larsen-skills?display_name=tag" alt="GitHub release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+  <a href="https://github.com/Stianlars1/larsen-skills/actions/workflows/validate.yml"><img src="https://github.com/Stianlars1/larsen-skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
 </p>
 
 Use the complete collection as a Codex or Claude Code plugin, or install only

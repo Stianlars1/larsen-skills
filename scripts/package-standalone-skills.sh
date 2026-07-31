@@ -8,9 +8,6 @@ plugin_root="${repository_root}/plugins/larsen-skills"
 manifest_path="${plugin_root}/.codex-plugin/plugin.json"
 version="$(awk -F'"' '/"version"/ { print $4; exit }' "${manifest_path}")"
 output_root="${1:-${repository_root}/dist/larsen-skills-${version}}"
-skills_output="${output_root}/skills"
-archives_output="${output_root}/zips"
-reference_sync_script="${script_directory}/sync-skill-references.sh"
 
 if [[ -z "${version}" ]]; then
   echo "Could not read the plugin version from ${manifest_path}." >&2
@@ -22,6 +19,15 @@ if [[ -e "${output_root}" ]]; then
   echo "Choose a new output path or remove the existing build deliberately." >&2
   exit 1
 fi
+
+# Resolve the output to an absolute path. The archive step runs from inside the
+# packaged skills directory, so a relative output path would be written to the
+# wrong place.
+mkdir -p "${output_root}"
+output_root="$(CDPATH= cd -- "${output_root}" && pwd)"
+skills_output="${output_root}/skills"
+archives_output="${output_root}/zips"
+reference_sync_script="${script_directory}/sync-skill-references.sh"
 
 for required_command in zip shasum; do
   if ! command -v "${required_command}" >/dev/null 2>&1; then

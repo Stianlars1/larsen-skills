@@ -30,17 +30,32 @@ accessibility, visual analysis, and frontend implementation.
 
 Before considering a change complete:
 
-1. validate JSON and YAML frontmatter;
-2. verify every referenced local file exists;
-3. run `scripts/sync-skill-references.sh`, then `--check`, and confirm it passes.
-   Every shipped reference must be cited by its `SKILL.md`; an uncited one is a
-   failure, not a leftover;
-4. confirm each rule lives in exactly one reference, and that other references
+Automated, and enforced in CI by `.github/workflows/validate.yml`:
+
+```bash
+./scripts/sync-skill-references.sh          # regenerate per-skill reference copies
+./scripts/validate-repository.py            # manifests, frontmatter, citations, hygiene
+./scripts/package-standalone-skills.sh dist/local
+./scripts/validate-repository.py dist/local # packages are self-contained
+```
+
+`validate-repository.py` checks manifest JSON and version consistency, YAML
+frontmatter and `name`-matches-directory, that every `references/…` citation
+resolves, that no shared reference is uncited, that references packaged together
+can reach each other, balanced code fences and aligned table columns, and the
+absence of private paths, secret prefixes, and trailing whitespace.
+
+Still your judgment, because no script can check it:
+
+1. confirm each rule lives in exactly one reference, and that other references
    name only the handoff;
-5. confirm prescriptive values are stated exactly, or as a band with the context
+2. confirm prescriptive values are stated exactly, or as a band with the context
    that decides where inside it a decision lands — never as vague guidance;
-6. scan for hard-coded private paths, secrets, and copied product assets;
-7. check whitespace and naming consistency;
-8. review the workflow for explicit scope, user-selection gates, accessibility,
+3. confirm no copied product asset or third-party prose entered the repository;
+4. review the workflow for explicit scope, user-selection gates, accessibility,
    performance, and verification;
-9. report what was validated and what remains unverified.
+5. report what was validated and what remains unverified.
+
+Edit only the shared originals in `plugins/larsen-skills/references/`. The
+per-skill copies are generated; CI fails if running the sync produces a diff,
+because that means an edit was made to a copy the next sync would discard.
