@@ -1,0 +1,61 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Manifests, skills, references, packaging
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Shared references are in sync
+        run: ./scripts/sync-skill-references.sh --check
+
+      - name: Generated references match their originals
+        # Running the sync must be a no-op on a correct tree. A diff here means
+        # someone edited a generated per-skill copy instead of the shared
+        # original, so the next sync would silently discard their change.
+        run: |
+          ./scripts/sync-skill-references.sh
+          git diff --exit-code -- plugins/larsen-skills/skills
+
+      - name: Validate manifests, skills, and references
+        run: ./scripts/validate-repository.py
+
+      - name: Build standalone packages
+        run: ./scripts/package-standalone-skills.sh dist/ci
+
+      - name: Standalone packages are self-contained
+        run: ./scripts/validate-repository.py dist/ci
+
+      - name: Checksums match their archives
+        # Guards against a truncated archive or a stale SHA256SUMS, so a
+        # published release can be verified against the file it ships with.
+        # Note: the archives are not byte-reproducible across builds — zip
+        # records mtimes, and packaging copies files fresh each time.
+        working-directory: dist/ci/zips
+        run: sha256sum --check SHA256SUMS
+
+      - name: Every skill is packaged
+        run: |
+          expected=$(find plugins/larsen-skills/skills -mindepth 1 -maxdepth 1 -type d | wc -l)
+          actual=$(find dist/ci/zips -name '*.zip' | wc -l)
+          test "$expected" -eq "$actual" \
+            || { echo "::error::$expected skills but $actual archives"; exit 1; }
+          echo "$actual archives for $expected skills."
